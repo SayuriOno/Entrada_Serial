@@ -23,6 +23,7 @@ Serial.println("digite o seu nome e pressione ENTER: ");
 }
 
 void loop() {
+  leituraNaoBLoqueante ()
 }
 
 void leituraNaoBLoqueante()
@@ -40,8 +41,11 @@ void leituraNaoBLoqueante()
        if ( c== '\n')
        {
         frase[position] = '\0';
-        position = 0 ;
+
+        if(position > 0)
         processarfrase(frase);
+
+        position=0 
        }
 
        else if (position < tamanhoMaximo - 1) //! -1 por causa do /0 no final, logo o position vai de 0 a 48.
@@ -55,6 +59,9 @@ void leituraNaoBLoqueante()
 void processarfrase(const char* texto)
 {
    Serial.printf("recebido: [%s]\n\r", texto);
+
+   if(strcmp(texto, "ola")==0)
+     Serial.println("ola voce tambem");
 }
 
 void leituraBloqueante()
@@ -89,4 +96,12 @@ Serial.print("em maiusculas: %s\n\r", maiusculo.c_str());
 if (maiusculo == "thiago" );
   Serial.println("este eh seu nome correto");
 //! se for thiago imprime que esta certo
+
+
+//!A função Serial.printf() permite enviar dados formatados para a porta serial usando especificadores de estilo C 
+//! (como %d, %s, %f), funcionando como uma alternativa mais compacta a múltiplos comandos Serial.print()
+
+//!Sintaxe básica: Serial.printf("formato"(o texto), valor1(referente a onde), valor2, ...);
+
+
 }}
