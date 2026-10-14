@@ -23,14 +23,13 @@ Serial.println("digite o seu nome e pressione ENTER: ");
 }
 
 void loop() {
-  leituraNaoBLoqueante ()
+  leituraNaoBLoqueante ();
 }
 
-void leituraNaoBLoqueante()
-{
+void leituraNaoBLoqueante();{
   const int tamanhoMaximo = 50; //*o tamanho do vetor (inclui '/0')
   char frase[tamanhoMaximo];
-  int position = 0 
+  int position = 0 ;
 
    while(serial.available() > 0 )
    { char c = Serial.read();
@@ -53,8 +52,8 @@ void leituraNaoBLoqueante()
         frase[position] = c;
         position++;
        }
-}
-}
+} }
+
 
 void processarfrase(const char* texto)
 {
@@ -64,12 +63,12 @@ void processarfrase(const char* texto)
      Serial.println("ola voce tambem");
 }
 
-void leituraBloqueante()
+void leituraBloqueante();
 {
 if (Serial.available()>0)
 //* available() diz quantos bytes ja chegaram e estao esperando leitura  
 {
-string texto = Serial.readStringUntil('\n')
+String texto = Serial.readStringUntil('\n')
 //! readStringUntil eh perigoso por ser algo bloqueiante 
 texto.trim();
 //* o trim remove caracteres nao imprimiveis e eh a primeira coisa que fazemos ao colocar um string texto
@@ -89,7 +88,7 @@ Serial.printf("primeira letra: %c\n\r", texto.charAt(0));
 Serial.printf("ultima letra: %c\n\r", texto[ texto.length() - 1 ] );
 //! e entao manda imprimir a ultima e primeira letra
 
-string maiusculo = texto;
+String maiusculo = texto;
 maiusculo.toUpperCase();
 Serial.print("em maiusculas: %s\n\r", maiusculo.c_str());
 
@@ -104,4 +103,4 @@ if (maiusculo == "thiago" );
 //!Sintaxe básica: Serial.printf("formato"(o texto), valor1(referente a onde), valor2, ...);
 
 
-}}
+}
