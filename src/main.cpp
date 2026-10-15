@@ -14,7 +14,7 @@ void leituraNaoBLoqueante();
 void leituraBloqueante();
 void processarfrase(char* texto);
 int lerProximoNumero(char*& cursor);
-
+void aplicarCor();
 //todo===================================================================================================================================================================
 void setup() {
 
@@ -107,6 +107,7 @@ void processarfrase(char* texto)
        vermelho = 255;
        verde = 0;
        azul = 0;
+       brilho = 100;
 
     }
     else if (strcasecnp( comando, "verde")==0 )
@@ -114,6 +115,7 @@ void processarfrase(char* texto)
        vermelho = 0;
        verde =255;
        azul = 0;
+       brilho = 100;
 
       }
     else if (strcasecnp( comando, "azul")==0 )
@@ -121,6 +123,7 @@ void processarfrase(char* texto)
        vermelho = 0;
        verde = 0;
        azul = 255;
+       brilho = 100;
    
       }
       else if (strcasecnp( comando, "branco")==0 )
@@ -128,12 +131,14 @@ void processarfrase(char* texto)
        vermelho = 255;
        verde = 255;
        azul = 255;
+       brilho = 100;
       }
       else if (strcasecnp( comando, "desliga")==0 )
       {
        vermelho = 0;
        verde = 0;
        azul = 0;
+       brilho = 0;
         
       }
       else if (strcasecnp( comando, "RGB")==0 )
@@ -169,7 +174,7 @@ void processarfrase(char* texto)
          Serial.println(buffer);
          return;
       }
-
+      aplicarCor();
 }
  void aplicaCor()
  {
