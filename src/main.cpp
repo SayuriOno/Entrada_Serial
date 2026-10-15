@@ -171,7 +171,14 @@ void processarfrase(char* texto)
       }
 
 }
- 
+ void aplicaCor()
+ {
+  int r = vermelho * brilho/100;
+  int g = verde * brilho/100;
+  int b = azul * brilho/100;
+
+  neopixelWrite(PIN_RGB_LED, r , g , b);
+ }
 
 int lerProximoNumero(char*& cursor)
 {//! char*& cursor = referimos nos ao conteudo do cursor com o *&
