@@ -26,12 +26,13 @@ void loop() {
   leituraNaoBLoqueante ();
 }
 
-void leituraNaoBLoqueante();{
+void leituraNaoBLoqueante()
+{
   const int tamanhoMaximo = 50; //*o tamanho do vetor (inclui '/0')
   char frase[tamanhoMaximo];
   int position = 0 ;
 
-   while(serial.available() > 0 )
+   while(Serial.available() > 0 )
    { char c = Serial.read();
        if ( c == '\r') continue;
        //! o comando continue pula o restante do while naquela volta e passa para a leitura do proximo caractere
@@ -44,7 +45,7 @@ void leituraNaoBLoqueante();{
         if(position > 0)
         processarfrase(frase);
 
-        position=0 
+        position=0 ;
        }
 
        else if (position < tamanhoMaximo - 1) //! -1 por causa do /0 no final, logo o position vai de 0 a 48.
@@ -63,12 +64,12 @@ void processarfrase(const char* texto)
      Serial.println("ola voce tambem");
 }
 
-void leituraBloqueante();
+void leituraBloqueante()
 {
 if (Serial.available()>0)
 //* available() diz quantos bytes ja chegaram e estao esperando leitura  
 {
-String texto = Serial.readStringUntil('\n')
+String texto = Serial.readStringUntil('\n');
 //! readStringUntil eh perigoso por ser algo bloqueiante 
 texto.trim();
 //* o trim remove caracteres nao imprimiveis e eh a primeira coisa que fazemos ao colocar um string texto
@@ -78,6 +79,7 @@ texto.trim();
 
 
 if ( texto.length() == 0 ) return 
+//! diferente do continue, o return sai da funcao.
 
 Serial.printf("Seu nome eh %s\n\r", texto.c_str());
 //! mandou imprimir o nome
@@ -102,5 +104,6 @@ if (maiusculo == "thiago" );
 
 //!Sintaxe básica: Serial.printf("formato"(o texto), valor1(referente a onde), valor2, ...);
 
-
+//* nosso /0 ocupa 2 caracteres enquanto la ocupa apenas um
+}
 }
