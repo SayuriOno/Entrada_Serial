@@ -12,8 +12,8 @@
 
 void leituraNaoBLoqueante();
 void leituraBloqueante();
-void processarfrase();
-int lerProximoNumero();
+void processarfrase(char* texto);
+int lerProximoNumero(char*& cursor);
 
 //todo===================================================================================================================================================================
 void setup() {
@@ -177,7 +177,7 @@ void processarfrase(char* texto)
   int g = verde * brilho/100;
   int b = azul * brilho/100;
 
-  neopixelWrite(PIN_RGB_LED, r , g , b);
+  rgbLedWrite(PIN_RGB_LED, r , g , b);
 
   char bufferMensagem[80];
   snprintf(bufferMensagem, sizeof(bufferMensagem), "cor: R=%3d G=%3d B=%3d | Brilho: %3d %% | HEX: #%02X%02X%02X ", 
