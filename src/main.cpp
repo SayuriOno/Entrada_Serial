@@ -178,6 +178,12 @@ void processarfrase(char* texto)
   int b = azul * brilho/100;
 
   neopixelWrite(PIN_RGB_LED, r , g , b);
+
+  char bufferMensagem[80];
+  snprintf(bufferMensagem, sizeof(bufferMensagem), "cor: R=%3d G=%3d B=%3d | Brilho: %3d %% | HEX: #%02X%02X%02X ", 
+            vermelho, verde, azul, brilho, r, b, g);
+            Serial.println(bufferMensagem);
+  //! hexadecimal de cor comeca pelo #
  }
 
 int lerProximoNumero(char*& cursor)
