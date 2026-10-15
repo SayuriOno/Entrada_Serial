@@ -5,7 +5,7 @@
 //DESCRIÇÃO:
 //NOME: Sayuri Ono
 //DATA: 15/10/2026
-//Versão 1.4
+//Versão 1.5
 
 //! anotacoes importantes 
 //? anotacoes menos importantes
@@ -171,6 +171,7 @@ void processarfrase(char* texto)
       }
 
 }
+ 
 
 int lerProximoNumero(char*& cursor)
 {//! char*& cursor = referimos nos ao conteudo do cursor com o *&
