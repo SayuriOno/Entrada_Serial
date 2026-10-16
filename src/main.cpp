@@ -41,31 +41,35 @@ leituraNaoBLoqueante ();
 
 void leituraNaoBLoqueante()
 {
-  const int tamanhoMaximo = 50; //*o tamanho do vetor (inclui '/0')
-  char frase[tamanhoMaximo];
+  const int tamanhoMaximo = 50; //? o tamanho do vetor (inclui '/0')
+  char frase[tamanhoMaximo];   //! o array tem 50 posicoes a sua disposicao
   int position = 0 ;
 
-   while(Serial.available() > 0 )
-   { char c = Serial.read();
-       if ( c == '\r') continue;
+   while(Serial.available() > 0 )//! Serial.available() informa quantos bytes estão esperando para serem lidos pela serial.(50)
+   { char c = Serial.read(); //! Essa linha lê um byte por vez e armazena o resultado na variável c.
+    //! c guarda o caractere recebido, não a posição do array.
+    //! ele eh um contador quase ja que vai guardar o caractere lido.
+       if ( c == '\r') continue; //! quando o caractere recebido for \r, ignore-o e passe para a próxima repetição do laço.
        //! o comando continue pula o restante do while naquela volta e passa para a leitura do proximo caractere
        //! o \r eh lido e simplesmente descartado, sem entrar no vetor
 
 
-       if ( c== '\n')
+       if ( c == '\n') //! se C for igual a tecla '\n' 
        {
-        frase[position] = '\0';
+        frase[position] = '\0'; //! se C for igual a tecla \n, frase armazena o fim(\0) na posicao indicada pelo position.
 
-        if(position > 0)
-        processarfrase(frase);
+        if(position > 0) //! se position for maior que 0
+        processarfrase(frase); //! execute a funcao processarfrase com a frase recebida
+         //! enviamos a informacao frase para essa funcao que chamamos processa-la 
+         //! frase indica as posicoes de 0 a 50, e as letras estao nessas posicoes, logo, enviamos letras ao processafrase processar 
 
-        position=0 ;
+        position=0 ; //! e entao ele zera tudo denovo e volta pro comeco 
        }
 
        else if (position < tamanhoMaximo - 1) //! -1 por causa do /0 no final, logo o position vai de 0 a 48.
-       {
+       {//! se a position for menor que 48, frase vai armarzenar C na posicao indicada por position.
         frase[position] = c;
-        position++;
+        position++; //! e entao position deve somar +1
        }
 } }
 
