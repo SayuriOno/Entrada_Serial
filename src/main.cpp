@@ -83,21 +83,29 @@ void leituraNaoBLoqueante()
 void processarfrase(char* texto)
 {
    Serial.printf("recebido: [%s]\n\r", texto);
-   
+   //* %s indica onde o texto deve ser inserido. Enquanto texto indica a variavel que guarda o texto que deve ser colocado no %s
    char* comando = texto;
    //! o * eh o endereco do texto, a variavel comando sabe onde o texto esta e recebe seu endereco
    //! mas ela nao modifica ele caso tenha const char* texto no void.
    char* parametro = NULL;
-   //!null eh o \0
-
+   //!null eh o vazio, a ausencia de um valor 
+   //! logo o parametro eh o endereco de nada
+  
    char* espaco = strchr( texto, ' '); 
-   //! o espaco sabe que deve procurar( comando strchr) o espaco no texto ( gracas ao "texto, ' ' " )
-   //! que indica (endereco/lugar, o que procurar)
+   //! a variavel espaco sabe que deve procurar(gracas comando strchr) ' ' no texto ( gracas ao "texto, ' ' " )
+   //! sintaxe: strchr (endereco/lugar, o que procurar)
 
+    //! strchr procura o primeiro caractere ' ' dentro de texto.
+   //! Se encontrar, retorna o endereço desse espaço.
+   //! Se não encontrar, retorna NULL (ou nullptr, conceitualmente).
+  
    if (espaco != NULL) //! se ele encontrar um espaco...
-   { parametro = parametro + 1;
-    *espaco = ' \0 ';
-    //! o *espaco = substituir o conteudo do espaco por \0, so o * adiciona 
+   { parametro = espaco + 1; //! parametro passa a indicar o endereco do caractere depois do espaco encontrado
+    *espaco = '\0';
+    //! o *espaco = substituir o conteudo do endereco do espaco por \0, basta o * ser colocado no inicio do espaco
+    //! sendo o final de string em todo o espaco
+    
+    //! parametro eh nada, agora toda vez que da um espaco ele indica o inicio de uma palavra
    }
 
    int vermelho = 0;
@@ -105,8 +113,9 @@ void processarfrase(char* texto)
    int azul = 0;
    int brilho = 0;
 
-   if (strcasecnp( comando, "vermelho")==0 )
-    {  //! strcasecnp faz o mesmo de strcnp mas nao leva em consideracao letras maiusculas e minusculas
+   if (strcasecmp( comando, "vermelho")== 0 )//! se no endereco do texto, procura e achar a palavra vermelho
+    { //! o ==0 indica quando ambos textos(o que ele procura e o que ele achou) estao iguais, se ele achou vermelho no texto. 
+      //! strcasecnp faz o mesmo de strcnp mas nao leva em consideracao letras maiusculas e minusculas
 
        vermelho = 255;
        verde = 0;
@@ -114,7 +123,7 @@ void processarfrase(char* texto)
        brilho = 100;
 
     }
-    else if (strcasecnp( comando, "verde")==0 )
+    else if (strcasecmp( comando, "verde")==0 )
       {
        vermelho = 0;
        verde =255;
@@ -122,7 +131,7 @@ void processarfrase(char* texto)
        brilho = 100;
 
       }
-    else if (strcasecnp( comando, "azul")==0 )
+    else if (strcasecmp( comando, "azul")==0 )
       { 
        vermelho = 0;
        verde = 0;
@@ -130,14 +139,14 @@ void processarfrase(char* texto)
        brilho = 100;
    
       }
-      else if (strcasecnp( comando, "branco")==0 )
+      else if (strcasecmp( comando, "branco")==0 )
       {
        vermelho = 255;
        verde = 255;
        azul = 255;
        brilho = 100;
       }
-      else if (strcasecnp( comando, "desliga")==0 )
+      else if (strcasecmp( comando, "desliga")==0 )
       {
        vermelho = 0;
        verde = 0;
@@ -145,12 +154,12 @@ void processarfrase(char* texto)
        brilho = 0;
         
       }
-      else if (strcasecnp( comando, "RGB")==0 )
+      else if (strcasecmp( comando, "RGB")==0 )
       {
-        if(parametro=NULL )
+        if(parametro=NULL )//! se o parametro volta a nada, ou seja, se eu nao der espaco
         {
           Serial.println( " use o comando: RBG r g b (0 a 255)");
-          return;
+          return;//! return encerra a funcao 
         }
 
        char* cursor = parametro;
@@ -158,36 +167,41 @@ void processarfrase(char* texto)
        vermelho = constrain(lerProximoNumero(cursor), 0 , 255);
        verde = constrain(lerProximoNumero(cursor), 0 , 255);
        azul = constrain(lerProximoNumero(cursor), 0 , 255);
-       //! limita o valor em uma faixa do minimo ao maximo
-       //! constraind( valor que esta constando, minimo, maximo)
+        //! limita o valor em uma faixa do minimo ao maximo, logo qualquer valor a cima do maximo 
+        //! e abaixo do minimo, eh parado
+        //! sintaxe: constrain( valor que quer limitar, minimo, maximo)
 
       }
-       else if (strcasecnp( comando, "brilho")==0 )
+       else if (strcasecmp( comando, "brilho")==0 )//! caso contrario, se voce achar a palavra brilho...
       {
-       if(parametro=NULL )
+       if(parametro=NULL ) //! se nao der espaco:
         {
-          Serial.println( " use o comando: BRILHO n (0 a 100)");
-          return;
+          Serial.println( " use o comando: BRILHO n (0 a 100)");//! fala isso
+          return;//! e encerra a string.
         }
-        brilho = constrain(atoi(parametro), 0, 100);
+        brilho = constrain(atoi(parametro), 0, 100);//! aqui limita o brilho de 0 a 100
       }
       else
       {
-         char buffer[100];
+         char buffer[100];//! guarda 100 posicoes
          snprintf( buffer, sizeof(buffer), "comando: [%s] nao existe", comando);
+        //! serve para montar um texto e armazená-lo em uma variável de texto
+        //! sintaxe: snprintf(destino, tamanho, "texto + %s", o que vai substituir o %s);
          Serial.println(buffer);
          return;
       }
-      aplicarCor();
+      aplicarCor();//! e entao realiza essa funcao
 }
  void aplicaCor()
  {
-  int r = vermelho * brilho/100;
+  int r = vermelho * brilho/100;//! r = vermelho vezes o brilho dividido por 100
   int g = verde * brilho/100;
   int b = azul * brilho/100;
 
   rgbLedWrite(PIN_RGB_LED, r , g , b);
-
+   //! A função rgbLedWrite() serve para controlar a cor de um LED RGB
+   //! sintaxe: rgbLedWrite(pino, vermelho, verde, azul);
+   
   char bufferMensagem[80];
   snprintf(bufferMensagem, sizeof(bufferMensagem), "cor: R=%3d G=%3d B=%3d | Brilho: %3d %% | HEX: #%02X%02X%02X ", 
             vermelho, verde, azul, brilho, r, b, g);
@@ -199,9 +213,11 @@ int lerProximoNumero(char*& cursor)
 {//! char*& cursor = referimos nos ao conteudo do cursor com o *&
 
 int valor = atoi(cursor);
+  //! A função atoi() serve para converter um texto que representa um número inteiro em um valor do tipo int.
 char* espaco = strchr( cursor, ' ');
 cursor = (espaco != NULL ) ? espaco + 1 : NULL;
-return valor; 
+  //! se espaco for diferente de NULL, soma espaco + 1, caso contrario eh NULL.
+return valor; //! entao voce retorna o valor.
 
 }
 
@@ -213,7 +229,7 @@ return valor;
 
 void leituraBloqueante()
 {
-if (Serial.available()>0)
+if (Serial.available()>0)//! se ele for maior que 0
 //! available() diz quantos bytes ja chegaram e estao esperando leitura  
 {
 String texto = Serial.readStringUntil('\n');
